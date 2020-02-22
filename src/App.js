@@ -7,6 +7,8 @@ import {
   NavLink
 } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Items from "./Items";
+import Dashboard from "./Dashboard";
 
 class App extends React.Component {
   constructor(props) {
@@ -53,10 +55,10 @@ class App extends React.Component {
           <div className="container-fluid">
             <Switch>
               <Route path="/items">
-                <p>...</p>
+                <Items/>
               </Route>
               <Route path="/">
-                <p>...</p>
+                <Dashboard/>
               </Route>
             </Switch>
           </div>
