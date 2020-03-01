@@ -58,7 +58,11 @@ class Dashboard extends React.Component {
             <h3>Inventory</h3>
             <ul>
               {this.state.inventory.map((inventoryItem, idx) =>
-                <li key={idx}>{inventoryItem.description} <NavLink to={`/inventory/${inventoryItem.id}/sell`}>Sell</NavLink></li>)}
+                <li key={idx}>
+                  <span>{inventoryItem.description} </span>
+                  <NavLink to={`/inventory/${inventoryItem.id}/sell`} className="btn btn-light btn-sm">Sell</NavLink>
+                  <NavLink to={`/item/${inventoryItem.item.id}/buy`} className="btn btn-light btn-sm">Buy more</NavLink>
+                </li>)}
             </ul>
           </div>
         </div>

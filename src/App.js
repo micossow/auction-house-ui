@@ -14,6 +14,7 @@ import LoginForm from "./LoginForm";
 import fetchWithAuth from "./Utils";
 import AccountLinks from "./AccountLinks";
 import Logout from "./Logout";
+import ItemBuy from "./ItemBuy";
 
 class App extends React.Component {
   constructor(props) {
@@ -80,6 +81,9 @@ class App extends React.Component {
             <Switch>
               <Route path="/items">
                 <Items/>
+              </Route>
+              <Route path="/item/:itemId/buy">
+                <ItemBuy/>
               </Route>
               <Route path="/inventory/:inventoryItemId/sell">
                 <InventoryItemSell/>
