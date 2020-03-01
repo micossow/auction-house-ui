@@ -1,5 +1,6 @@
 import React from 'react';
 import fetchWithAuth from "./Utils";
+import {NavLink} from "react-router-dom";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -57,7 +58,7 @@ class Dashboard extends React.Component {
             <h3>Inventory</h3>
             <ul>
               {this.state.inventory.map((inventoryItem, idx) =>
-                <li key={idx}>{inventoryItem.description}</li>)}
+                <li key={idx}>{inventoryItem.description} <NavLink to={`/inventory/${inventoryItem.id}/sell`}>Sell</NavLink></li>)}
             </ul>
           </div>
         </div>
