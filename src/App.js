@@ -32,11 +32,7 @@ class App extends React.Component {
   }
 
   async verifyAuth() {
-    let resp = await fetch("/api/v1/dashboard", {
-      headers: {
-        'Authorization': 'Token ' + localStorage.getItem('token')
-      }
-    });
+    let resp = await fetchWithAuth("/api/v1/dashboard");
     if (resp.ok) {
       let data = await resp.json();
       this.setState({isAuth: true, user: data.user});
