@@ -21,6 +21,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: true,
       isAuth: false,
       user: null
     }
@@ -102,6 +103,8 @@ class App extends React.Component {
           </div>
         </Router>
       );
+    } else if (this.state.loading) {
+      return <p>Loading...</p>
     } else {
       return <LoginForm onTokenReceive={(token) => this.handleToken(token)}/>
     }
