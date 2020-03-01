@@ -1,6 +1,7 @@
 import React from 'react';
 import {useHistory, useParams} from "react-router-dom";
 import fetchWithAuth from "./Utils";
+import ItemListings from "./ItemListings";
 
 class ItemBuyForm extends React.Component {
   constructor(props) {
@@ -53,37 +54,44 @@ class ItemBuyForm extends React.Component {
 
   render() {
     return (
-        <div className="row">
-          <div className="col">
+        <>
+          <div className="row mb-3">
             {this.state.errors ?
                 <div className="alert alert-danger" role="alert">{this.state.errors}</div> : <span/>}
-            <h3>Make purchase listing</h3>
-            <form onSubmit={(e) => this.makeListing(e)}>
-              <div className="form-group">
-                <input type="number" placeholder="Count" className="form-control" value={this.state.listingCount}
-                       onChange={(e) => this.update('listingCount', e)}/>
-              </div>
-              <div className="form-group">
-                <input type="number" placeholder="Price" className="form-control" value={this.state.listingPrice}
-                       onChange={(e) => this.update('listingPrice', e)}/>
-              </div>
-              <input type="submit" className="btn btn-primary"
-                     disabled={!(this.state.listingCount && this.state.listingPrice)}
-                     value="Make listing">
-              </input>
-            </form>
-            <h3>Buy instantly</h3>
-            <form onSubmit={(e) => this.buyNow(e)}>
-              <div className="form-group">
-                <input type="number" placeholder="Count" className="form-control" value={this.state.buyNowCount}
-                       onChange={(e) => this.update('buyNowCount', e)}/>
-              </div>
-              <input type="submit" className="btn btn-primary"
-                     disabled={!this.state.buyNowCount}
-                     value="Buy now"/>
-            </form>
+            <div className="col-sm-12 col-md-6 col-lg-4 col-xl-3">
+              <h3>Make purchase listing</h3>
+              <form onSubmit={(e) => this.makeListing(e)}>
+                <div className="form-group">
+                  <input type="number" placeholder="Count" className="form-control" value={this.state.listingCount}
+                         onChange={(e) => this.update('listingCount', e)}/>
+                </div>
+                <div className="form-group">
+                  <input type="number" placeholder="Price" className="form-control" value={this.state.listingPrice}
+                         onChange={(e) => this.update('listingPrice', e)}/>
+                </div>
+                <input type="submit" className="btn btn-primary"
+                       disabled={!(this.state.listingCount && this.state.listingPrice)}
+                       value="Make listing">
+                </input>
+              </form>
+            </div>
+            <div className="col-sm-12 col-md-6 col-lg-4 col-xl-3">
+              <h3>Buy instantly</h3>
+              <form onSubmit={(e) => this.buyNow(e)}>
+                <div className="form-group">
+                  <input type="number" placeholder="Count" className="form-control" value={this.state.buyNowCount}
+                         onChange={(e) => this.update('buyNowCount', e)}/>
+                </div>
+                <input type="submit" className="btn btn-primary"
+                       disabled={!this.state.buyNowCount}
+                       value="Buy now"/>
+              </form>
+            </div>
           </div>
-        </div>
+          <div className="row">
+            <ItemListings itemId={this.props.itemId} />
+          </div>
+        </>
     )
   }
 }
