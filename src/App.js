@@ -81,6 +81,9 @@ class App extends React.Component {
               <Route path="/items">
                 <Items/>
               </Route>
+              <Route path="/inventory/:inventoryItemId/sell">
+                <InventoryItemSell/>
+              </Route>
               <Route path="/logout">
                 <Logout onLogout={() => this.handleLogout()}/>
               </Route>
