@@ -15,6 +15,7 @@ import fetchWithAuth from "./Utils";
 import AccountLinks from "./AccountLinks";
 import Logout from "./Logout";
 import ItemBuy from "./ItemBuy";
+import CancelListing from "./CancelListing";
 
 class App extends React.Component {
   constructor(props) {
@@ -87,6 +88,9 @@ class App extends React.Component {
               </Route>
               <Route path="/inventory/:inventoryItemId/sell">
                 <InventoryItemSell/>
+              </Route>
+              <Route path="/listing/:listingId/cancel">
+                <CancelListing/>
               </Route>
               <Route path="/logout">
                 <Logout onLogout={() => this.handleLogout()}/>
