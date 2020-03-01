@@ -1,4 +1,5 @@
 import React from 'react';
+import fetchWithAuth from "./Utils";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class Dashboard extends React.Component {
   }
 
   async componentDidMount() {
-    let resp = await fetch("/api/v1/dashboard");
+    let resp = await fetchWithAuth("/api/v1/dashboard");
     if (resp.ok) {
       let data = await resp.json();
       this.setState({

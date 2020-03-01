@@ -9,6 +9,7 @@ import {
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Items from "./Items";
 import Dashboard from "./Dashboard";
+import LoginForm from "./LoginForm";
 
 class App extends React.Component {
   constructor(props) {
@@ -20,7 +21,22 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    let resp = await fetch("/api/v1/dashboard");
+    if (localStorage.getItem('token')) {
+      await this.verifyAuth();
+    }
+  }
+
+  async handleToken(token) {
+    localStorage.setItem('token', token);
+    await this.verifyAuth();
+  }
+
+  async verifyAuth() {
+    let resp = await fetch("/api/v1/dashboard", {
+      headers: {
+        'Authorization': 'Token ' + localStorage.getItem('token')
+      }
+    });
     if (resp.ok) {
       let data = await resp.json();
       this.setState({isAuth: true, user: data.user});
@@ -65,7 +81,7 @@ class App extends React.Component {
         </Router>
       );
     } else {
-      return (<p>Login issue</p>);
+      return <LoginForm onTokenReceive={(token) => this.handleToken(token)}/>
     }
   }
 }
