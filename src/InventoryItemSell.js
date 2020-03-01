@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  useParams,
-  useHistory
-} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import fetchWithAuth from "./Utils";
 
 class InventoryItemSellForm extends React.Component {
@@ -27,10 +24,11 @@ class InventoryItemSellForm extends React.Component {
   }
 
   update(field, e) {
-    this.setState({ [field]: e.target.value });
+    this.setState({[field]: e.target.value});
   }
 
-  async sell() {
+  async sell(e) {
+    e.preventDefault();
     let resp = await fetchWithAuth(`/api/v1/inventory/${this.props.inventoryItemId}/sell`, {
       method: 'POST',
       headers: {
@@ -40,6 +38,9 @@ class InventoryItemSellForm extends React.Component {
     });
     if (resp.ok) {
       this.props.history.push('/dashboard');
+    } else {
+      let data = await resp.json();
+      this.setState({errors: data.error})
     }
   }
 
@@ -47,18 +48,24 @@ class InventoryItemSellForm extends React.Component {
     return (
         <div className="row">
           <div className="col">
+            {this.state.errors ?
+                <div className="alert alert-danger" role="alert">{this.state.errors}</div> : <span/>}
             <p>You have {this.state.inventoryItem.count} of {this.state.inventoryItem.item.name}</p>
-            <div className="form-group">
-              <input type="number" placeholder="Count" className="form-control" value={this.state.count}
-                     onChange={(e) => this.update('count', e)} />
-            </div>
-            <div className="form-group">
-              <input type="number" placeholder="Price" className="form-control" value={this.state.price}
-                     onChange={(e) => this.update('price', e)} />
-            </div>
-            <button className="btn btn-primary"
-                    disabled={!(this.state.count && this.state.price)}
-                    onClick={() => this.sell()}>Sell</button>
+            <form onSubmit={(e) => this.sell(e)}>
+              <div className="form-group">
+                <label htmlFor="count">Count</label>
+                <input type="number" placeholder="Count" id="count" className="form-control" value={this.state.count}
+                       onChange={(e) => this.update('count', e)}/>
+              </div>
+              <div className="form-group">
+                <label htmlFor="count">Price</label>
+                <input type="number" placeholder="Price" id="price" className="form-control" value={this.state.price}
+                       onChange={(e) => this.update('price', e)}/>
+              </div>
+              <input type="submit" className="btn btn-primary"
+                     disabled={!(this.state.count && this.state.price)}
+                     value="Sell"/>
+            </form>
           </div>
         </div>
     )
@@ -66,9 +73,9 @@ class InventoryItemSellForm extends React.Component {
 }
 
 function InventoryItemSell() {
-  let { inventoryItemId } = useParams();
+  let {inventoryItemId} = useParams();
   let history = useHistory();
-  return <InventoryItemSellForm inventoryItemId={inventoryItemId} history={history} />
+  return <InventoryItemSellForm inventoryItemId={inventoryItemId} history={history}/>
 }
 
 export default InventoryItemSell;
