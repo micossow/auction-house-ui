@@ -2,6 +2,43 @@ import React from 'react';
 import fetchWithAuth from "./Utils";
 import {NavLink} from "react-router-dom";
 
+function Listings(props) {
+  return <div className="col-3">
+    <div className="card">
+      <div className="card-body">
+        <h5 className="card-title">{props.title}</h5>
+      </div>
+      <ul className="list-group list-group-flush">
+        {props.listings.map((listing, idx) =>
+            <li className="list-group-item" key={idx}>{listing.description}
+              <NavLink to={`/listing/${listing.id}/cancel`}
+                       className="btn btn-link btn-sm">Cancel</NavLink>
+            </li>)}
+      </ul>
+    </div>
+  </div>
+}
+
+function Inventory(props) {
+  return <div className="col-3">
+    <div className="card">
+      <div className="card-body">
+        <h5 className="card-title">Inventory</h5>
+      </div>
+      <ul className="list-group list-group-flush">
+        {props.inventory.map((inventoryItem, idx) =>
+            <li className="list-group-item" key={idx}>
+              <span>{inventoryItem.description} </span>
+              <NavLink to={`/inventory/${inventoryItem.id}/sell`}
+                       className="btn btn-link btn-sm">Sell</NavLink>
+              <NavLink to={`/item/${inventoryItem.item.id}/buy`}
+                       className="btn btn-link btn-sm">Buy more</NavLink>
+            </li>)}
+      </ul>
+    </div>
+  </div>
+}
+
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -30,43 +67,21 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
-        <div className="row">
-          <div className="col">
-            <h3>Welcome <strong>{this.state.user}</strong></h3>
-            <p>You have <strong>{this.state.wallet.coins}</strong> coins</p>
+        <React.Fragment>
+          <div className="row">
+            <div className="col">
+              <h3>Welcome <strong>{this.state.user}</strong></h3>
+              <p>You have <strong>{this.state.wallet.coins}</strong> coins</p>
+            </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="col-3">
-            <h3>Your buy listings</h3>
-            <ul>
-              {this.state.buyListings.map((listing, idx) =>
-                <li key={idx}>{listing.description}</li>)}
-            </ul>
+          <div className="row mb-3">
+            <Listings title="Your buy listings" listings={this.state.buyListings}/>
+            <Listings title="Your sell listings" listings={this.state.sellListings}/>
           </div>
-          <div className="col-3">
-            <h3>Your sell listings</h3>
-            <ul>
-              {this.state.sellListings.map((listing, idx) =>
-                <li key={idx}>{listing.description}</li>)}
-            </ul>
+          <div className="row">
+            <Inventory inventory={this.state.inventory} />
           </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            <h3>Inventory</h3>
-            <ul>
-              {this.state.inventory.map((inventoryItem, idx) =>
-                <li key={idx}>
-                  <span>{inventoryItem.description} </span>
-                  <NavLink to={`/inventory/${inventoryItem.id}/sell`} className="btn btn-light btn-sm">Sell</NavLink>
-                  <NavLink to={`/item/${inventoryItem.item.id}/buy`} className="btn btn-light btn-sm">Buy more</NavLink>
-                </li>)}
-            </ul>
-          </div>
-        </div>
-      </React.Fragment>
+        </React.Fragment>
     );
   }
 }
