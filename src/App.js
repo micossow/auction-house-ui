@@ -9,7 +9,11 @@ import {
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Items from "./Items";
 import Dashboard from "./Dashboard";
+import InventoryItemSell from "./InventoryItemSell";
 import LoginForm from "./LoginForm";
+import fetchWithAuth from "./Utils";
+import AccountLinks from "./AccountLinks";
+import Logout from "./Logout";
 
 class App extends React.Component {
   constructor(props) {
@@ -29,6 +33,11 @@ class App extends React.Component {
   async handleToken(token) {
     localStorage.setItem('token', token);
     await this.verifyAuth();
+  }
+
+  async handleLogout(token) {
+    localStorage.setItem('token', null);
+    this.setState({isAuth: false});
   }
 
   async verifyAuth() {
@@ -61,6 +70,9 @@ class App extends React.Component {
                   <NavLink to="/items" className="nav-link" activeClassName="active">Items</NavLink>
                 </li>
               </ul>
+              <ul className="navbar-nav">
+                <AccountLinks/>
+              </ul>
             </div>
           </nav>
 
@@ -68,6 +80,9 @@ class App extends React.Component {
             <Switch>
               <Route path="/items">
                 <Items/>
+              </Route>
+              <Route path="/logout">
+                <Logout onLogout={() => this.handleLogout()}/>
               </Route>
               <Route path="/">
                 <Dashboard/>
