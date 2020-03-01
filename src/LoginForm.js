@@ -29,9 +29,9 @@ class LoginForm extends React.Component {
   }
 
   render() {
-      return <div className="container">
+      return <div className="d-flex container justify-content-center mt-3">
         <div className="row">
-          <div className="col-3">
+          <div className="col-sm-12">
             <form onSubmit={(e) => this.login(e)}>
               <div className="form-group">
                 <input className="form-control" type="text" placeholder="User name" value={this.state.username}

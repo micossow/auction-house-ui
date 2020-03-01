@@ -30,6 +30,8 @@ class App extends React.Component {
   async componentDidMount() {
     if (localStorage.getItem('token')) {
       await this.verifyAuth();
+    } else {
+      this.setState({loading: false});
     }
   }
 
@@ -47,9 +49,9 @@ class App extends React.Component {
     let resp = await fetchWithAuth("/api/v1/dashboard");
     if (resp.ok) {
       let data = await resp.json();
-      this.setState({isAuth: true, user: data.user});
-    } else if (resp.status === 403) {
-      this.setState({isAuth: false});
+      this.setState({isAuth: true, user: data.user, loading: false});
+    } else {
+      this.setState({isAuth: false, loading: false});
     }
   }
 
