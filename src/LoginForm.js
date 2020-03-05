@@ -15,7 +15,7 @@ class LoginForm extends React.Component {
 
   async login(e) {
     e.preventDefault();
-    let resp = await fetch('/api-auth-token', {
+    let resp = await fetch('/api/v1/auth-token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
